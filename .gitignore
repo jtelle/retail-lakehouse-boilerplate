@@ -1,0 +1,48 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.python-version
+*.log
+
+# --- Entornos Virtuales ---
+.venv/
+venv/
+env/
+ENV/
+ret_lakehouse_env/
+
+# --- Datos y Data Lake (Crucial) ---
+# Bloqueamos cualquier almacenamiento local de datos
+data/
+*.parquet
+*.delta
+*.csv
+*.json
+_delta_log/
+
+# --- Infraestructura y Docker ---
+.docker/
+# Si MinIO crea carpetas de datos locales para persistencia:
+minio_data/ 
+
+# --- Streamlit ---
+# Configuración local de Streamlit y credenciales
+.streamlit/config.toml
+.streamlit/secrets.toml
+
+# --- IDEs y Sistema ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# --- Variables de Entorno ---
+.env
+
+# --- Documentación Temporal ---
+temp/
+FAQ.md
+ROADMAP.md

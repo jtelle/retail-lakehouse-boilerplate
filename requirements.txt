@@ -1,0 +1,17 @@
+# Core Data Stack
+polars
+numpy
+pandas
+pyarrow
+
+# Cloud & Storage
+boto3
+s3fs
+deltalake
+
+# Utils
+faker
+
+# Visu & Dashboard
+streamlit>=1.31.0
+plotly>=5.18.0
