@@ -59,9 +59,15 @@ The environment exposes several endpoints for interaction:
 | MinIO Console        | http://localhost:9001              | admin / password123   |
 | DBeaver (DuckDB)     | path/to/project/visor_lakehouse.db	| Standard Connection   |
 
-### 5. Querying with SQL (Optional)
+### 5. Querying with SQL (First-time Setup)
 
-To query the data directly from your desktop using DBeaver, run the initialization script provided in `src/queries_maestras.sql` to connect DuckDB with the MinIO S3 storage.
+Since this is a Schema-on-Read architecture, follow these steps to explore the data:
+
+ - Connect DBeaver: Create a new DuckDB connection pointing to visor_lakehouse.db in your project folder (DBeaver will create the file if it doesn't exist).
+
+- Initialize S3 Access: Open and execute the first section of src/queries_maestras.sql. This tells DuckDB how to talk to the MinIO container.
+
+- Create Views: Run the CREATE VIEW statements in the same script. This "maps" the Parquet files in S3 as SQL tables.
 
 ---
 
