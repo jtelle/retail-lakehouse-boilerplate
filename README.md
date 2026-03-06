@@ -2,25 +2,31 @@
 
 This project demonstrates a fully functional **Modern Data Stack** (MDS) architecture containerized with Docker. It simulates a retail business with 50 stores, processing data through Bronze and Gold layers.
 
-## 🏗️ Architecture
+## Key Features
+- **High Performance:** Powered by Polars and DuckDB for lightning-fast OLAP queries.
+- **Medallion Architecture:** Clear separation between Bronze (Raw) and Gold (Reporting) layers.
+- **Full Containerization:** One-command setup with Docker Compose.
+- **Live Dashboard:** Interactive Streamlit UI connected directly to the Lakehouse.
+
+## Architecture
 - **Storage:** MinIO (S3-compatible Object Storage)
 - **Format:** Apache Parquet (Columnar storage)
 - **Compute:** Polars (High-performance DataFrames) & DuckDB (OLAP SQL engine)
 - **Orchestration:** Docker Compose
 - **Visualization:** Streamlit Dashboard
 
-## 🚀 Quick Start
+## Quick Start
 1. `docker-compose up -d`
 2. Run data generation: `docker exec -it lakehouse_ui python src/generator.py`
 3. Process the pipeline: `docker exec -it lakehouse_ui python src/pipeline.py`
 4. Access the Dashboard at `http://localhost:8501`
 
-## 📊 Features
+## Features
 - **Medallion Architecture:** Raw data (Bronze) to Aggregated reports (Gold).
 - **Schema-on-Read:** Querying Parquet files directly from S3 using DuckDB.
 - **Persistence:** Docker volumes ensure data survives container restarts.
 
-## 🛠️ How to Run
+## How to Run
 
 Follow these steps to get the Lakehouse up and running on your local machine.
 
@@ -83,3 +89,4 @@ Since this is a Schema-on-Read architecture, follow these steps to explore the d
 ├── requirements.txt
 └── README.md
 ```
+
