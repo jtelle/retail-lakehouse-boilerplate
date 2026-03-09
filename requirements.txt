@@ -15,3 +15,6 @@ faker
 # Visu & Dashboard
 streamlit>=1.31.0
 plotly>=5.18.0
+
+openai
+python-dotenv

@@ -1,9 +1,10 @@
 version: '3.8'
 
 services:
+  # Almacenamiento de datos
   minio:
-    image: minio/minio:latest
-    container_name: lakehouse_minio_v2
+    image: minio/minio
+    container_name: lakehouse_minio
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -14,19 +15,32 @@ services:
     volumes:
       - minio_data:/data
 
-  # NEW: Your Streamlit application
-  dashboard:
+  # IA Local (Ollama)
+  ollama:
+    image: ollama/ollama
+    container_name: lakehouse_ollama
+    ports:
+      - "11435:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  # Interfaz Streamlit + Procesamiento (Aquí unificamos todo)
+  lakehouse_ui:
     build: .
     container_name: lakehouse_ui
+    env_file:
+      - .env  # <--- Esto carga tu GROQ_API_KEY automáticamente
     ports:
-      - "8501:8501"
+      - "8502:8501"  # <--- Entrarás por http://localhost:8502
     environment:
-      - MINIO_ENDPOINT=minio:9000  # <--- NOTE: You're no longer using 'localhost'
+      - MINIO_ENDPOINT=minio:9000
     volumes:
-      - .:/app  # This allows you to see changes made in Windows code reflected in Docker
-    command: sh entrypoint.sh
+      - .:/app
     depends_on:
       - minio
+      - ollama
+    command: sh entrypoint.sh
 
 volumes:
   minio_data:
+  ollama_data:

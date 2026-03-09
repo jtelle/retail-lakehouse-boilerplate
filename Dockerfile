@@ -1,9 +1,13 @@
 # 1. We use a lightweight Python image
+
 FROM python:3.11-slim
 
 # 2. We prevent Python from generating .pyc files and the buffer from filling up
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+
+# install curl for health checks and other potential uses
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # 3. Working directory inside the container
 WORKDIR /app

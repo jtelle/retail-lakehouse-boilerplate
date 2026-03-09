@@ -12,6 +12,7 @@ venv/
 env/
 ENV/
 ret_lakehouse_env/
+.env/
 
 # --- Datos y Data Lake (Crucial) ---
 # Bloqueamos cualquier almacenamiento local de datos
@@ -21,6 +22,7 @@ data/
 *.csv
 *.json
 _delta_log/
+old_files/
 
 # --- Infraestructura y Docker ---
 .docker/
