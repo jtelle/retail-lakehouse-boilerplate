@@ -61,11 +61,18 @@ The environment exposes several endpoints for interaction:
 
 | Tool                 | URL                                | Credentials           |
 |----------------------|------------------------------------|-----------------------|
-| Streamlit Dashboard  | http://localhost:8501              | None                  |
+| Streamlit Dashboard  | http://localhost:8502              | None                  |
 | MinIO Console        | http://localhost:9001              | admin / password123   |
 | DBeaver (DuckDB)     | path/to/project/visor_lakehouse.db	| Standard Connection   |
 
-### 5. Querying with SQL (First-time Setup)
+### 5 Smart AI Engine (Hybrid Mode)
+
+This Lakehouse is designed for maximum flexibility. The processing engine automatically detects your environment during startup:
+
+* **High-Performance Mode (Cloud):** If a `GROQ_API_KEY` is found in your `.env` file, the system bypasses local checks and uses Groq for near-instant inference.
+* **Local Fallback Mode:** If no API key is provided, the `entrypoint.sh` script automatically waits for the local **Ollama** service to be ready with the `tinyllama` model.
+
+### 6. Querying with SQL (First-time Setup)
 
 Since this is a Schema-on-Read architecture, follow these steps to explore the data:
 
@@ -84,9 +91,20 @@ Since this is a Schema-on-Read architecture, follow these steps to explore the d
 │   ├── app.py            # Streamlit Dashboard logic
 │   ├── generator.py      # Synthetic data engine (Boto3/Polars)
 │   ├── pipeline.py       # Bronze to Gold processing logic
+├── sql/
 │   └── queries_maestras.sql
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
 ```
+
+#### Ports map
+
+
+| Service       | Port | Description              |
+|---------------|------|--------------------------|
+| Streamlit UI  | 8502 | Main Data Dashboard      |
+| MinIO Console | 9001 | Object Storage Management|
+| Ollama API    | 11435| Local LLM Engine          |
+
 
