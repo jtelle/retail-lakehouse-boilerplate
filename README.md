@@ -16,10 +16,11 @@ This project demonstrates a fully functional **Modern Data Stack** (MDS) archite
 - **Visualization:** Streamlit Dashboard
 
 ## Quick Start
-1. `docker-compose up -d`
-2. Run data generation: `docker exec -it lakehouse_ui python src/generator.py`
-3. Process the pipeline: `docker exec -it lakehouse_ui python src/pipeline.py`
-4. Access the Dashboard at `http://localhost:8501`
+1. `docker-compose up -d`, access the Dashboard at `http://localhost:8502`
+ - This will run the whole pipeline. To run again:
+    - Run data generation: `docker exec -it lakehouse_ui python src/generator.py`
+    - Process the pipeline: `docker exec -it lakehouse_ui python src/pipeline.py`
+    
 
 ## Features
 - **Medallion Architecture:** Raw data (Bronze) to Aggregated reports (Gold).
@@ -45,6 +46,7 @@ docker-compose up -d
 ```
 
 ### 3. Initialize the Lakehouse
+->Skip this step with new entrypoint.sh, that will run all the scripts.
 
 Execute the internal scripts to create the storage buckets, generate synthetic sales data for 50 stores, and process the Medallion pipeline:
 ```bash
