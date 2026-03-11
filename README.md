@@ -45,44 +45,39 @@ cd <your-repo-name>
 docker-compose up -d
 ```
 
-### 3. Initialize the Lakehouse
-->Skip this step with new entrypoint.sh, that will run all the scripts.
-
-Execute the internal scripts to create the storage buckets, generate synthetic sales data for 50 stores, and process the Medallion pipeline:
-```bash
-# Generate raw sales data (Bronze Layer)
-docker exec -it lakehouse_ui python src/generator.py
-
-# Process data and create aggregates (Gold Layer)
-docker exec -it lakehouse_ui python src/pipeline.py
-```
-
-### 4. Access the Tools
+### 3. Access the Services
 
 The environment exposes several endpoints for interaction:
 
-| Tool                 | URL                                | Credentials           |
-|----------------------|------------------------------------|-----------------------|
-| Streamlit Dashboard  | http://localhost:8502              | None                  |
-| MinIO Console        | http://localhost:9001              | admin / password123   |
-| DBeaver (DuckDB)     | path/to/project/visor_lakehouse.db	| Standard Connection   |
+| Tool               | URL                       | Credentials         |
+|--------------------|---------------------------|---------------------|
+| Streamlit Dashboard| http://localhost:8502     | None                |
+| MinIO Console      | http://localhost:9001     | admin / password123 |
+| Ollama API         | http://localhost:11434    | None                |
 
-### 5 Smart AI Engine (Hybrid Mode)
+### 4. Update the Lakehouse (Self-Service)
 
-This Lakehouse is designed for maximum flexibility. The processing engine automatically detects your environment during startup:
+The `entrypoint.sh` script automatically initializes the data on startup. To generate new data and update the reports:
 
-* **High-Performance Mode (Cloud):** If a `GROQ_API_KEY` is found in your `.env` file, the system bypasses local checks and uses Groq for near-instant inference.
-* **Local Fallback Mode:** If no API key is provided, the `entrypoint.sh` script automatically waits for the local **Ollama** service to be ready with the `tinyllama` model.
+1. Open the Streamlit Dashboard.
+2. Expand the **Data Control Panel**.
+3. Click **INICIAR PROCESO COMPLETO**. The UI will show a real-time log of the generation, AI analysis, and pipeline transformation.
+4. Click **VER GRÁFICAS ACTUALIZADAS** to see the new results.
 
-### 6. Querying with SQL (First-time Setup)
+### 5. Smart AI Engine (Hybrid Mode)
 
-Since this is a Schema-on-Read architecture, follow these steps to explore the data:
+The processing engine automatically detects your environment during startup:
 
- - Connect DBeaver: Create a new DuckDB connection pointing to visor_lakehouse.db in your project folder (DBeaver will create the file if it doesn't exist).
+- **High‑Performance Mode (Cloud):** If a `GROQ_API_KEY` is found in your `.env` file, the system uses Groq for near-instant inference.
+- **Local Fallback Mode:** If no key is provided, the system waits for the local Ollama service to be ready and uses the `tinyllama` model.
 
-- Initialize S3 Access: Open and execute the first section of src/queries_maestras.sql. This tells DuckDB how to talk to the MinIO container.
+### 6. Advanced: Manual Querying (SQL)
 
-- Create Views: Run the CREATE VIEW statements in the same script. This "maps" the Parquet files in S3 as SQL tables.
+Since this is a Schema-on-Read architecture, you can explore the data directly using SQL:
+
+1. Connect DBeaver: Create a new DuckDB connection pointing to `visor_lakehouse.db` in your project folder.
+2. Initialize S3 Access: Execute the first section of `src/queries_maestras.sql` to configure the S3/MinIO connection.
+3. Create Views: Run the `CREATE VIEW` statements to map the Parquet files in MinIO as virtual SQL tables.
 
 ---
 
@@ -92,6 +87,7 @@ Since this is a Schema-on-Read architecture, follow these steps to explore the d
 ├── src/
 │   ├── app.py            # Streamlit Dashboard logic
 │   ├── generator.py      # Synthetic data engine (Boto3/Polars)
+│   ├── brain_service.py # AI Review generator (Groq/Ollama)
 │   ├── pipeline.py       # Bronze to Gold processing logic
 ├── sql/
 │   └── queries_maestras.sql
@@ -103,10 +99,10 @@ Since this is a Schema-on-Read architecture, follow these steps to explore the d
 #### Ports map
 
 
-| Service       | Port | Description              |
-|---------------|------|--------------------------|
-| Streamlit UI  | 8502 | Main Data Dashboard      |
-| MinIO Console | 9001 | Object Storage Management|
-| Ollama API    | 11435| Local LLM Engine          |
+| Service       | Port | Description                   |
+|---------------|------|-------------------------------|
+| Streamlit UI  | 8502 | Main Data Dashboard           |
+| MinIO Console | 9001 | Object Storage Management     |
+| Ollama API    | 11435| LLM Engine (Mapped from 11434)|
 
 
