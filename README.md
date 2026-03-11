@@ -1,12 +1,13 @@
 # 🛒 Modern Retail Lakehouse
 
-This project demonstrates a fully functional **Modern Data Stack** (MDS) architecture containerized with Docker. It simulates a retail business with 50 stores, processing data through Bronze and Gold layers.
+This project demonstrates a fully functional **Modern Data Stack** (MDS) architecture containerized with Docker. It simulates a retail business with 50 stores, processing data through Bronze and Gold layers with an integrated AI-driven review engine.
 
 ## Key Features
-- **High Performance:** Powered by Polars and DuckDB for lightning-fast OLAP queries.
+- **High Performance:** Powered by Polars and DuckDB for fast queries.
 - **Medallion Architecture:** Clear separation between Bronze (Raw) and Gold (Reporting) layers.
+- **Integrated Orchestration:** Trigger the entire generation and transformation pipeline with one click from the UI.
+- **Smart AI Engine:** Automated customer review generation using Groq (Cloud) or Ollama (Local).
 - **Full Containerization:** One-command setup with Docker Compose.
-- **Live Dashboard:** Interactive Streamlit UI connected directly to the Lakehouse.
 
 ## Architecture
 - **Storage:** MinIO (S3-compatible Object Storage)
@@ -15,12 +16,7 @@ This project demonstrates a fully functional **Modern Data Stack** (MDS) archite
 - **Orchestration:** Docker Compose
 - **Visualization:** Streamlit Dashboard
 
-## Quick Start
-1. `docker-compose up -d`, access the Dashboard at `http://localhost:8502`
- - This will run the whole pipeline. To run again:
-    - Run data generation: `docker exec -it lakehouse_ui python src/generator.py`
-    - Process the pipeline: `docker exec -it lakehouse_ui python src/pipeline.py`
-    
+ 
 
 ## Features
 - **Medallion Architecture:** Raw data (Bronze) to Aggregated reports (Gold).
